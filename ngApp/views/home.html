@@ -1,0 +1,31 @@
+<!--use an ng-repeat for these items. Have the link tied to the :id-->
+<!--use a modal for each item with all of the details in the model-->
+<div class="row" style="padding-top: 50px">
+  <div class="col-md-1" style="background-color: #e4e4e4">
+      <div class="active">
+        <a href="#">Project 1</a>
+        <div ng-controller"EditController as controller">
+          <button type="button" ng-click="controller.editTask()">Edit</button>
+        </div>
+      </div>
+      <div>
+        <a href="#">Project 2</a>
+        <div ng-controller"EditController as controller">
+          <button type="button" ng-click="controller.editTask()">Edit</button>
+        </div>
+      </div>
+      <div>
+        <a href="#">Project 3</a>
+        <div ng-controller"EditController as controller">
+          <button type="button" ng-click="controller.editTask()">Edit</button>
+        </div>
+      </div>
+  </div>
+  <div class="col-md-11">
+    <div ng-controller="AddController as controller">
+      <a href="/" class="btn btn-sq-lg btn-primary" style="width: 150px; height: 150px" ng-click="controller.addTask()">
+        <i class="fa fa-plus-square fa-3x" aria-hidden="true"></i> </br>
+        Add Task</a></br>
+    </div>
+  </div>
+</div>
