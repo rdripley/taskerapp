@@ -14,8 +14,8 @@ UserSchema.method("setPassword", function (password) {
     this.salt = crypto.randomBytes(16).toString('hex');
     this.passwordHash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
 });
-UserSchema.method("validatePassword", function (password) {
-    var hash = crypto.pbkdf2Sync(password, _this.salt, 100, 64, 'sha1').toString('hex');
+UserSchema.method("validatePassword", function (password, salt, passwordHash) {
+    var hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha1').toString('hex');
     return (hash === _this.passwordHash);
 });
 UserSchema.method("generateJWT", function (role) {

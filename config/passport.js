@@ -18,7 +18,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
         if (!user) {
             return done(null, false, { message: "Invalid user" });
         }
-        if (!user.validatePassword(password)) {
+        if (!user.validatePassword(password, user.salt, user.passwordHash)) {
             return done(null, false, { message: 'Passwords dont match' });
         }
         return done(null, user);
