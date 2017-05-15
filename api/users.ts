@@ -8,15 +8,12 @@ import User from '../models/user';
 var router = express.Router();
 
 router.post('/Register', (req, res, next) => {
-  let newUser:any = new User();
-  let salt = crypto.randomBytes(16).toString('hex');
-  let passwordHash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, 'sha1').toString('hex');
+  let user:any = new User();
   console.log(req.body);
-  newUser.username = req.body.username;
-  newUser.email = req.body.email;
-  newUser.passwordHash = passwordHash;
-  newUser.salt = salt;
-  newUser.save(function(err, newUser){
+  user.username = req.body.username;
+  user.email = req.body.email;
+  user.setPassword(req.body.password);
+  user.save(function(err, newUser){
     if(err){
       return next(err);
     }

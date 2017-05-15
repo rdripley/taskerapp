@@ -9,9 +9,12 @@ let UserSchema = new mongoose.Schema({
   salt: String
 });
 
-UserSchema.method("validatePassword", (password) => {
+UserSchema.method("setPassword", function(password){
   this.salt = crypto.randomBytes(16).toString('hex');
   this.passwordHash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
+});
+
+UserSchema.method("validatePassword", (password) => {
   let hash = crypto.pbkdf2Sync(password, this.salt, 100, 64, 'sha1').toString('hex');
   return(hash === this.passwordHash);
 });
