@@ -1,13 +1,12 @@
-<div class="modal-header">
-  <h3 class="modal-title">New Task</h3>
-</div>
-<div class="modal-body">
-  <h1>Task Details</h1>
-  <input type="text" placeholder="title" ng-model="modal.controller.title" />
-  <input type="text" placeholder="description" ng-model="modal.controller.description" />
-  <input type="text" placeholder="details" ng-model="modal.controller.details" />
-  <input type="text" placeholder="due date" ng-model="modal.controller.dueDate" />
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" ng-click="modal.ok()">OK</button>
-</div>
+<h1>Add Task</h1>
+  <h3>Task Details</h3>
+  <input type="text" placeholder="title" ng-model="controller.task.title" />
+  <input type="text" placeholder="description" ng-model="controller.task.description" />
+  <input type="text" placeholder="details" ng-model="controller.task.details" />
+  <input type="text" placeholder="due date" ng-model="controller.task.dueDate" />
+  <select ng-model="controller.task.project">
+    <option value="coderCamps">CoderCamps</option>
+    <option value="personal">Personal</option>
+    <option value="work">Work</option>
+  </select>
+ <button type="button" ng-click="controller.addTask()">Add Task</button>

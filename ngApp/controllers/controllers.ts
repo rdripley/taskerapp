@@ -18,49 +18,16 @@ namespace taskapp.Controllers {
     }
     angular.module('taskapp').controller('HomeController', HomeController);
 
-    export class AddController {
-      public project;
-
-      public addTask(title: string, description: string, details: string, dueDate: string) {
-        this.$uibModal.open({
-          templateUrl: '/ngApp/views/addTask.html',
-          controller: 'AddDialogController',
-          controllerAs: 'modal',
-          resolve: {
-            title: () => title,
-            description: () => description,
-            details: () => details,
-            dueDate: () => dueDate
-          },
-          size: 'sm'
-        });
-      }
-      constructor(private $uibModal, private $http) {
-        this.$http.get('/api/tasks')
-        .then((response) => {
-          this.project = response.data;
-        });
-      }
-    }
-    angular.module('taskapp').controller('AddController', AddController);
-
-    export class AddDialogController {
+    export class AddTaskController {
         public task;
-        public project;
 
-        public ok() {
-          this.taskService.saveTask(this.task).then(() => {
-            this.project = this.taskService.getTasks();
-            this.task = {};
-            this.$uibModalInstance.close();
-          })
+        public addTask() {
+          this.taskService.saveTask(this.task);
         }
-
-        constructor(private $uibModalInstance, private taskService) {
-          this.project = this.taskService.getTasks();
+        constructor(private taskService) {
         }
     }
-    angular.module('taskapp').controller('AddDialogController', AddDialogController);
+    angular.module('taskapp').controller('AddTaskController', AddTaskController);
 
     export class EditController {
       // need to add logic for editing

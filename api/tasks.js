@@ -5,7 +5,7 @@ var router = express.Router();
 var project_1 = require("../models/project");
 var task_1 = require("../models/task");
 router.post('/', function (req, res) {
-    if (req.body.id) {
+    if (req.body._id) {
         project_1.default.findByIdAndUpdate(req.body._id, { "$set": { "title": req.body.title, "description": req.body.description, "details": req.body.details, "dueDate": req.body.dueDate } }, { "new": true, "upsert": true }, function (err, updatedProject) {
             if (err) {
                 res.send(err);

@@ -16,7 +16,7 @@ UserSchema.method("setPassword", function (password) {
 });
 UserSchema.method("validatePassword", function (password, salt, passwordHash) {
     var hash = crypto.pbkdf2Sync(password, salt, 1000, 64, 'sha1').toString('hex');
-    return (hash === _this.passwordHash);
+    return (hash === passwordHash);
 });
 UserSchema.method("generateJWT", function (role) {
     return jwt.sign({

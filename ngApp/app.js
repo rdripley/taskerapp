@@ -8,6 +8,12 @@ var taskapp;
             controller: taskapp.Controllers.HomeController,
             controllerAs: 'controller'
         })
+            .state('add', {
+            url: '/add',
+            templateUrl: '/ngApp/views/addTask.html',
+            controller: taskapp.Controllers.AddTaskController,
+            controllerAs: 'controller'
+        })
             .state('login', {
             url: '/',
             templateUrl: '/ngApp/views/login.html',

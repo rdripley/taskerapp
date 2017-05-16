@@ -19,52 +19,17 @@ var taskapp;
         }());
         Controllers.HomeController = HomeController;
         angular.module('taskapp').controller('HomeController', HomeController);
-        var AddController = (function () {
-            function AddController($uibModal, $http) {
-                var _this = this;
-                this.$uibModal = $uibModal;
-                this.$http = $http;
-                this.$http.get('/api/tasks')
-                    .then(function (response) {
-                    _this.project = response.data;
-                });
-            }
-            AddController.prototype.addTask = function (title, description, details, dueDate) {
-                this.$uibModal.open({
-                    templateUrl: '/ngApp/views/addTask.html',
-                    controller: 'AddDialogController',
-                    controllerAs: 'modal',
-                    resolve: {
-                        title: function () { return title; },
-                        description: function () { return description; },
-                        details: function () { return details; },
-                        dueDate: function () { return dueDate; }
-                    },
-                    size: 'sm'
-                });
-            };
-            return AddController;
-        }());
-        Controllers.AddController = AddController;
-        angular.module('taskapp').controller('AddController', AddController);
-        var AddDialogController = (function () {
-            function AddDialogController($uibModalInstance, taskService) {
-                this.$uibModalInstance = $uibModalInstance;
+        var AddTaskController = (function () {
+            function AddTaskController(taskService) {
                 this.taskService = taskService;
-                this.project = this.taskService.getTasks();
             }
-            AddDialogController.prototype.ok = function () {
-                var _this = this;
-                this.taskService.saveTask(this.task).then(function () {
-                    _this.project = _this.taskService.getTasks();
-                    _this.task = {};
-                    _this.$uibModalInstance.close();
-                });
+            AddTaskController.prototype.addTask = function () {
+                this.taskService.saveTask(this.task);
             };
-            return AddDialogController;
+            return AddTaskController;
         }());
-        Controllers.AddDialogController = AddDialogController;
-        angular.module('taskapp').controller('AddDialogController', AddDialogController);
+        Controllers.AddTaskController = AddTaskController;
+        angular.module('taskapp').controller('AddTaskController', AddTaskController);
         var EditController = (function () {
             function EditController($uibModal, $http) {
                 var _this = this;
