@@ -6,9 +6,14 @@ import Task from  '../models/task';
 // Create or Update
 router.post('/', (req, res) => {
   if(req.body._id) {
-    Project.findByIdAndUpdate(req.body._id, { "$set":
-    {"title": req.body.title, "description": req.body.description, "details": req.body.details, "dueDate": req.body.dueDate}},
-    {"new": true, "upsert": true},
+    Task.findByIdAndUpdate(req.body._id,
+      { "$set": {
+        "title": req.body.title,
+        "description": req.body.description,
+        "details": req.body.details,
+        "dueDate": req.body.dueDate}
+      },
+      {"new": true, "upsert": true},
       function(err, updatedProject) {
         if (err) {
           res.send(err);
@@ -24,10 +29,13 @@ router.post('/', (req, res) => {
     task.dueDate = req.body.dueDate;
     task.save((err, newTask) => {
       Project.findOne({name: req.body.project}).exec((err, result:any) => {
+        console.log(req.body.project);
         if (err) {
           res.send(err);
+        } else if (!result) {
+          console.log("none found");
         } else {
-          Project.findByIdAndUpdate(result._id, {"push": {"tasks": newTask._id}}, {"new": true, "upsert": true},
+          Project.findByIdAndUpdate(result._id, {"$push": {"tasks": newTask._id}}, {"new": true, "upsert": true},
             function (err, updatedProject) {
               if (err) {
                 res.send(err);
@@ -35,6 +43,7 @@ router.post('/', (req, res) => {
                 res.send(updatedProject);
               }
             });
+
       }
     });
     })

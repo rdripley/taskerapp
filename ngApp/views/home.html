@@ -1,31 +1,27 @@
 <!--use an ng-repeat for these items. Have the link tied to the :id-->
 <!--use a modal for each item with all of the details in the model-->
-<div class="row" style="padding-top: 50px">
-  <div class="col-md-1" style="background-color: #e4e4e4">
-      <div class="active">
-        <a href="#">Project 1</a>
-        <div ng-controller"EditController as controller">
-          <button type="button" ng-click="controller.editTask()">Edit</button>
-        </div>
-      </div>
-      <div>
-        <a href="#">Project 2</a>
-        <div ng-controller"EditController as controller">
-          <button type="button" ng-click="controller.editTask()">Edit</button>
-        </div>
-      </div>
-      <div>
-        <a href="#">Project 3</a>
-        <div ng-controller"EditController as controller">
-          <button type="button" ng-click="controller.editTask()">Edit</button>
-        </div>
-      </div>
+<div class="layout-container">
+  <div class="layout-sidebar">
+    <select ng-model="controller.project" ng-change="controller.getTasks()">
+        <option value="coderCamps">CoderCamps</option>
+        <option value="personal">Personal</option>
+        <option value="work">Work</option>
+    </select>
+    <a href="/addProject" class="btn btn-sm btn-primary">
+      <i class="fa fa-plus-square fa-1x" aria-hidden="true"></i>
+      Add Project
+    </a>
   </div>
-  <div class="col-md-11">
+  <div class="layout-main">
     <div ng-controller="AddTaskController as controller">
-      <a href="/add" class="btn btn-sq-lg btn-primary" style="width: 150px; height: 150px">
+      <a href="/addTask" class="btn btn-sq-lg btn-primary" style="width: 150px; height: 150px">
         <i class="fa fa-plus-square fa-3x" aria-hidden="true"></i> </br>
         Add Task</a></br>
     </div>
+    <ul>
+      <li ng-repeat="task in controller.tasks" style="padding: 100px">
+        {{task.title}}
+      </li>
+    </ul>
   </div>
 </div>

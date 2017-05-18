@@ -6,7 +6,13 @@ var project_1 = require("../models/project");
 var task_1 = require("../models/task");
 router.post('/', function (req, res) {
     if (req.body._id) {
-        project_1.default.findByIdAndUpdate(req.body._id, { "$set": { "title": req.body.title, "description": req.body.description, "details": req.body.details, "dueDate": req.body.dueDate } }, { "new": true, "upsert": true }, function (err, updatedProject) {
+        task_1.default.findByIdAndUpdate(req.body._id, { "$set": {
+                "title": req.body.title,
+                "description": req.body.description,
+                "details": req.body.details,
+                "dueDate": req.body.dueDate
+            }
+        }, { "new": true, "upsert": true }, function (err, updatedProject) {
             if (err) {
                 res.send(err);
             }
@@ -23,11 +29,15 @@ router.post('/', function (req, res) {
         task.dueDate = req.body.dueDate;
         task.save(function (err, newTask) {
             project_1.default.findOne({ name: req.body.project }).exec(function (err, result) {
+                console.log(req.body.project);
                 if (err) {
                     res.send(err);
                 }
+                else if (!result) {
+                    console.log("none found");
+                }
                 else {
-                    project_1.default.findByIdAndUpdate(result._id, { "push": { "tasks": newTask._id } }, { "new": true, "upsert": true }, function (err, updatedProject) {
+                    project_1.default.findByIdAndUpdate(result._id, { "$push": { "tasks": newTask._id } }, { "new": true, "upsert": true }, function (err, updatedProject) {
                         if (err) {
                             res.send(err);
                         }

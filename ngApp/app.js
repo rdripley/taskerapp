@@ -8,9 +8,15 @@ var taskapp;
             controller: taskapp.Controllers.HomeController,
             controllerAs: 'controller'
         })
-            .state('add', {
-            url: '/add',
+            .state('addTask', {
+            url: '/addTask',
             templateUrl: '/ngApp/views/addTask.html',
+            controller: taskapp.Controllers.AddTaskController,
+            controllerAs: 'controller'
+        })
+            .state('addProject', {
+            url: '/addProject',
+            templateUrl: '/ngApp/views/addProject.html',
             controller: taskapp.Controllers.AddTaskController,
             controllerAs: 'controller'
         })
@@ -27,10 +33,8 @@ var taskapp;
             controllerAs: 'controller'
         })
             .state('notFound', {
-            url: '/notFound',
             templateUrl: '/ngApp/views/notFound.html'
         });
-        $urlRouterProvider.otherwise('/notFound');
         $locationProvider.html5Mode(true);
     });
 })(taskapp || (taskapp = {}));

@@ -20,6 +20,24 @@ var taskapp;
         }());
         Services.TaskService = TaskService;
         angular.module('taskapp').service('taskService', TaskService);
+        var ProjectService = (function () {
+            function ProjectService($resource) {
+                this.$resource = $resource;
+                this.ProjectResource = $resource();
+            }
+            ProjectService.prototype.getProjects = function () {
+                return this.ProjectResource.query().$promise;
+            };
+            ProjectService.prototype.saveProject = function (project) {
+                return this.ProjectResource.save(project);
+            };
+            ProjectService.prototype.removeProject = function (projectId) {
+                return this.ProjectResource.remove({ id: projectId });
+            };
+            return ProjectService;
+        }());
+        Services.ProjectService = ProjectService;
+        angular.module('taskapp').service('projectService', ProjectService);
         var UserService = (function () {
             function UserService($resource) {
                 this.$resource = $resource;

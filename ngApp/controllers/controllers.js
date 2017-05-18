@@ -6,7 +6,7 @@ var taskapp;
             function HomeController(taskService) {
                 this.taskService = taskService;
             }
-            HomeController.prototype.getAllTasks = function () {
+            HomeController.prototype.getTasks = function () {
                 var _this = this;
                 this.taskService.getTasks(this.project).then(function (result) {
                     _this.tasks = result;
@@ -20,18 +20,29 @@ var taskapp;
         Controllers.HomeController = HomeController;
         angular.module('taskapp').controller('HomeController', HomeController);
         var AddTaskController = (function () {
-            function AddTaskController(taskService) {
-                this.taskService = taskService;
+            function AddTaskController(projectService) {
+                this.projectService = projectService;
             }
             AddTaskController.prototype.addTask = function () {
-                this.taskService.saveTask(this.task);
+                this.projectService.saveTask(this.task);
             };
             return AddTaskController;
         }());
         Controllers.AddTaskController = AddTaskController;
         angular.module('taskapp').controller('AddTaskController', AddTaskController);
-        var EditController = (function () {
-            function EditController($uibModal, $http) {
+        var AddProjectController = (function () {
+            function AddProjectController(projectService) {
+                this.projectService = projectService;
+            }
+            AddProjectController.prototype.addProject = function () {
+                this.projectService.saveProject(this.project);
+            };
+            return AddProjectController;
+        }());
+        Controllers.AddProjectController = AddProjectController;
+        angular.module('taskapp').controller('AddProjectController', AddProjectController);
+        var EditTaskController = (function () {
+            function EditTaskController($uibModal, $http) {
                 var _this = this;
                 this.$uibModal = $uibModal;
                 this.$http = $http;
@@ -40,7 +51,7 @@ var taskapp;
                     _this.project = response.data;
                 });
             }
-            EditController.prototype.editTask = function (title, description, details, dueDate) {
+            EditTaskController.prototype.editTask = function (title, description, details, dueDate) {
                 this.$uibModal.open({
                     templateUrl: '/ngApp/views/editTask.html',
                     controller: 'EditDialogController',
@@ -54,28 +65,28 @@ var taskapp;
                     size: 'sm'
                 });
             };
-            return EditController;
+            return EditTaskController;
         }());
-        Controllers.EditController = EditController;
-        angular.module('taskapp').controller('EditController', EditController);
-        var EditDialogController = (function () {
-            function EditDialogController($uibModalInstance, taskService, $stateParams) {
+        Controllers.EditTaskController = EditTaskController;
+        angular.module('taskapp').controller('EditTaskController', EditTaskController);
+        var EditTaskDialogController = (function () {
+            function EditTaskDialogController($uibModalInstance, taskService, $stateParams) {
                 this.$uibModalInstance = $uibModalInstance;
                 this.taskService = taskService;
                 this.$stateParams = $stateParams;
                 this.taskId = $stateParams['id'];
             }
-            EditDialogController.prototype.ok = function () {
+            EditTaskDialogController.prototype.ok = function () {
                 var _this = this;
                 this.task._id = this.taskId;
                 this.taskService.saveTask(this.task).then(function () {
                     _this.$uibModalInstance.close();
                 });
             };
-            return EditDialogController;
+            return EditTaskDialogController;
         }());
-        Controllers.EditDialogController = EditDialogController;
-        angular.module('taskapp').controller('EditDialogController', EditDialogController);
+        Controllers.EditTaskDialogController = EditTaskDialogController;
+        angular.module('taskapp').controller('EditTaskDialogController', EditTaskDialogController);
         var LoginController = (function () {
             function LoginController(userService, $window, $state) {
                 this.userService = userService;

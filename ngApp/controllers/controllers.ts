@@ -4,7 +4,7 @@ namespace taskapp.Controllers {
         public project;
         public tasks;
 
-        public getAllTasks() {
+        public getTasks() {
           this.taskService.getTasks(this.project).then((result) => {
             this.tasks = result;
           });
@@ -22,14 +22,25 @@ namespace taskapp.Controllers {
         public task;
 
         public addTask() {
-          this.taskService.saveTask(this.task);
+          this.projectService.saveTask(this.task);
         }
-        constructor(private taskService) {
+        constructor(private projectService) {
         }
     }
     angular.module('taskapp').controller('AddTaskController', AddTaskController);
 
-    export class EditController {
+    export class AddProjectController {
+        public project;
+
+        public addProject() {
+          this.projectService.saveProject(this.project);
+        }
+        constructor(private projectService) {
+        }
+    }
+    angular.module('taskapp').controller('AddProjectController', AddProjectController);
+
+    export class EditTaskController {
       // need to add logic for editing
       public project;
       public task;
@@ -56,9 +67,9 @@ namespace taskapp.Controllers {
         });
       }
     }
-    angular.module('taskapp').controller('EditController', EditController);
+    angular.module('taskapp').controller('EditTaskController', EditTaskController);
 
-    export class EditDialogController {
+    export class EditTaskDialogController {
     // need to add logic for editting
         public task;
         public taskId;
@@ -77,7 +88,7 @@ namespace taskapp.Controllers {
             this.taskId = $stateParams['id'];
         }
     }
-    angular.module('taskapp').controller('EditDialogController', EditDialogController);
+    angular.module('taskapp').controller('EditTaskDialogController', EditTaskDialogController);
 
     export class LoginController {
       public userInfo;

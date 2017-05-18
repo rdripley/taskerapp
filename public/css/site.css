@@ -1,0 +1,12 @@
+.layout-container {
+  display: flex;
+  justify-content: space-between;
+}
+.layout-sidebar {
+  background-color: #e4e4e4;
+  min-height: 100%;
+  flex-basis: 100px;
+}
+.layout-main {
+  flex-grow: 1;
+}

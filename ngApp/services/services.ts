@@ -19,6 +19,26 @@ namespace taskapp.Services {
   }
   angular.module('taskapp').service('taskService', TaskService);
 
+  export class ProjectService {
+    public ProjectResource;
+
+    public getProjects() {
+      return this.ProjectResource.query().$promise;
+    }
+
+    public saveProject(project) {
+      return this.ProjectResource.save(project);
+    }
+
+    public removeProject(projectId) {
+      return this.ProjectResource.remove({id: projectId});
+    }
+    constructor(private $resource) {
+      this.ProjectResource = $resource();
+    }
+  }
+  angular.module('taskapp').service('projectService', ProjectService);
+
   export class UserService {
     public LoginResource;
     public SignUpResource;
