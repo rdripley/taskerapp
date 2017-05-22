@@ -15,20 +15,26 @@ namespace taskapp.Controllers {
         public deleteTask(taskId) {
           if (this.payload.role === 'admin') {
             this.taskService.removeTask(taskId);
+            this.$state.reload().then(() => {
+              this.$state.current;
+            })
           } else {
-            alert('Denied! Admins only.')
+            alert('Denied! Admins only.');
           }
         }
 
         public deleteProject(projectId) {
           if (this.payload.role === 'admin') {
             this.projectService.removeProject(projectId);
+            this.$state.reload().then(() => {
+              this.$state.current;
+            })
           } else {
             alert('Denied! Admins only.')
           }
         }
 
-        constructor(private taskService, private projectService) {
+        constructor(private taskService, private projectService, public $state) {
           this.projects = this.projectService.getProjects();
           let token = window.localStorage['token'];
 
@@ -60,7 +66,9 @@ namespace taskapp.Controllers {
         public editTask() {
           this.task._id = this.taskId;
           this.taskService.saveTask(this.task);
-          this.$state.go('home');
+          this.$state.reload().then(() => {
+            this.$state.go('home');
+          })
         }
 
         constructor(
@@ -78,7 +86,9 @@ namespace taskapp.Controllers {
 
         public addProject() {
           this.projectService.saveProject(this.project);
-          this.$state.go('home');
+          this.$state.reload().then(() => {
+            this.$state.go('home');
+          })
         }
         constructor(private projectService, public $state) { }
     }
@@ -92,7 +102,9 @@ namespace taskapp.Controllers {
         console.log(this.projectId)
         this.project._id = this.projectId;
         this.projectService.saveProject(this.project);
-        this.$state.go('home');
+        this.$state.reload().then(() => {
+          this.$state.go('home');
+        })
       }
 
       constructor(

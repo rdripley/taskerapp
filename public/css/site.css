@@ -10,10 +10,21 @@
 .layout-main {
   flex-grow: 1;
   justify-content: space-between;
-  padding-top: 10px;
+  padding-top: 20px;
   flex-wrap: nowrap;
 }
 .homeLists {
   list-style-type: none;
   border-bottom: 1px solid black;
+}
+.editBox {
+  box-sizing: border-box;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #2e8a19;
+  border-radius: 5px;
+  margin: 0 10px;
+  background-color: #3cb521;
+  text-align: center;
+  vertical-align: center;
 }

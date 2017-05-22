@@ -3,9 +3,10 @@ var taskapp;
     var Controllers;
     (function (Controllers) {
         var HomeController = (function () {
-            function HomeController(taskService, projectService) {
+            function HomeController(taskService, projectService, $state) {
                 this.taskService = taskService;
                 this.projectService = projectService;
+                this.$state = $state;
                 this.projects = this.projectService.getProjects();
                 var token = window.localStorage['token'];
                 if (token) {
@@ -19,16 +20,24 @@ var taskapp;
                 });
             };
             HomeController.prototype.deleteTask = function (taskId) {
+                var _this = this;
                 if (this.payload.role === 'admin') {
                     this.taskService.removeTask(taskId);
+                    this.$state.reload().then(function () {
+                        _this.$state.current;
+                    });
                 }
                 else {
                     alert('Denied! Admins only.');
                 }
             };
             HomeController.prototype.deleteProject = function (projectId) {
+                var _this = this;
                 if (this.payload.role === 'admin') {
                     this.projectService.removeProject(projectId);
+                    this.$state.reload().then(function () {
+                        _this.$state.current;
+                    });
                 }
                 else {
                     alert('Denied! Admins only.');
@@ -61,9 +70,12 @@ var taskapp;
                 this.taskId = $stateParams['id'];
             }
             EditTaskController.prototype.editTask = function () {
+                var _this = this;
                 this.task._id = this.taskId;
                 this.taskService.saveTask(this.task);
-                this.$state.go('home');
+                this.$state.reload().then(function () {
+                    _this.$state.go('home');
+                });
             };
             return EditTaskController;
         }());
@@ -75,8 +87,11 @@ var taskapp;
                 this.$state = $state;
             }
             AddProjectController.prototype.addProject = function () {
+                var _this = this;
                 this.projectService.saveProject(this.project);
-                this.$state.go('home');
+                this.$state.reload().then(function () {
+                    _this.$state.go('home');
+                });
             };
             return AddProjectController;
         }());
@@ -90,10 +105,13 @@ var taskapp;
                 this.projectId = $stateParams['id'];
             }
             EditProjectController.prototype.editProject = function () {
+                var _this = this;
                 console.log(this.projectId);
                 this.project._id = this.projectId;
                 this.projectService.saveProject(this.project);
-                this.$state.go('home');
+                this.$state.reload().then(function () {
+                    _this.$state.go('home');
+                });
             };
             return EditProjectController;
         }());

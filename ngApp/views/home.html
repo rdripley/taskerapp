@@ -18,27 +18,29 @@
     </div>
   </div>
   <div class="layout-main">
-      <ul>
+      <ul style="margin: 0px">
         <li ng-repeat="task in controller.tasks" style="list-style-type: none; display: inline; float: left">
           <div ng-controller="EditTaskController as controller">
-            <div style="width: 150px; height: 150px" class="btn btn-sq-lg btn-success">
+            <div class="editBox">
               <a href="/editTask/{{task._id}}">
-                <i class="fa fa-plus-square fa-3x" aria-hidden="true" style="color: white"></i> </br>
+                <i class="fa fa-plus-square fa-3x" aria-hidden="true" style="color: white; padding-top: 5px"></i> </br>
                 <div style="color: white">
                   {{task.title}} </br>
                   {{task.description}}</br>
                   {{task.dueDate}}</br>
                 </div>
-                <a href="#" ng-click="controller.deleteTask(task._id)">
-                  <i class="fa fa-minus-square fa-2x" style="color:white" aria-hidden="true"></i>
-                </a>
-              </a></br>
+              </a>
+                <div ng-controller="HomeController as controller">
+                  <a href="#" ng-click="controller.deleteTask(task._id)">
+                    <i class="fa fa-minus-square fa-2x" style="color:white; padding-top: 5px" aria-hidden="true"></i>
+                  </a>
+                </div>
             </div>
           </div>
         </li>
       </ul>
     <div ng-controller="AddTaskController as controller" style="padding-left: 25px">
-      <a href="/addTask" class="btn btn-sq-lg btn-primary" style="width: 150px; height: 150px">
+      <a href="/addTask" class="btn btn-sq-lg btn-primary" style="width: 150px; height: 150px; margin-left: 20px">
         <i class="fa fa-plus-square fa-3x" aria-hidden="true"></i> </br>
         Add Task</a></br>
     </div>
