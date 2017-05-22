@@ -7,18 +7,32 @@ var taskapp;
                 this.taskService = taskService;
                 this.projectService = projectService;
                 this.projects = this.projectService.getProjects();
+                var token = window.localStorage['token'];
+                if (token) {
+                    this.payload = JSON.parse(window.atob(token.split('.')[1]));
+                }
             }
-            HomeController.prototype.getTasks = function () {
+            HomeController.prototype.getTasks = function (projectId) {
                 var _this = this;
-                this.projectService.getTasks(this.project).then(function (result) {
+                this.projectService.getTasks(projectId).then(function (result) {
                     _this.tasks = result;
                 });
             };
             HomeController.prototype.deleteTask = function (taskId) {
-                this.taskService.removeTask(taskId);
+                if (this.payload.role === 'admin') {
+                    this.taskService.removeTask(taskId);
+                }
+                else {
+                    alert('Denied! Admins only.');
+                }
             };
             HomeController.prototype.deleteProject = function (projectId) {
-                this.projectService.removeProject(projectId);
+                if (this.payload.role === 'admin') {
+                    this.projectService.removeProject(projectId);
+                }
+                else {
+                    alert('Denied! Admins only.');
+                }
             };
             return HomeController;
         }());
@@ -40,40 +54,46 @@ var taskapp;
         Controllers.AddTaskController = AddTaskController;
         angular.module('taskapp').controller('AddTaskController', AddTaskController);
         var EditTaskController = (function () {
-            function EditTaskController(taskService, $stateParams) {
+            function EditTaskController(taskService, $stateParams, $state) {
                 this.taskService = taskService;
                 this.$stateParams = $stateParams;
+                this.$state = $state;
                 this.taskId = $stateParams['id'];
             }
             EditTaskController.prototype.editTask = function () {
                 this.task._id = this.taskId;
                 this.taskService.saveTask(this.task);
+                this.$state.go('home');
             };
             return EditTaskController;
         }());
         Controllers.EditTaskController = EditTaskController;
         angular.module('taskapp').controller('EditTaskController', EditTaskController);
         var AddProjectController = (function () {
-            function AddProjectController(projectService) {
+            function AddProjectController(projectService, $state) {
                 this.projectService = projectService;
+                this.$state = $state;
             }
             AddProjectController.prototype.addProject = function () {
                 this.projectService.saveProject(this.project);
+                this.$state.go('home');
             };
             return AddProjectController;
         }());
         Controllers.AddProjectController = AddProjectController;
         angular.module('taskapp').controller('AddProjectController', AddProjectController);
         var EditProjectController = (function () {
-            function EditProjectController(projectService, $stateParams) {
+            function EditProjectController(projectService, $stateParams, $state) {
                 this.projectService = projectService;
                 this.$stateParams = $stateParams;
+                this.$state = $state;
                 this.projectId = $stateParams['id'];
             }
             EditProjectController.prototype.editProject = function () {
                 console.log(this.projectId);
                 this.project._id = this.projectId;
                 this.projectService.saveProject(this.project);
+                this.$state.go('home');
             };
             return EditProjectController;
         }());

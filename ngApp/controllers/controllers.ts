@@ -1,26 +1,40 @@
 namespace taskapp.Controllers {
 // need to PAYLOAD to add/edit controllers. Create/edit should be available to "guest" but not deleate
     export class HomeController {
-        public project;
+        public projectId;
         public projects;
         public tasks;
+        public payload;
 
-        public getTasks() {
-          this.projectService.getTasks(this.project).then((result) => {
+        public getTasks(projectId) {
+          this.projectService.getTasks(projectId).then((result) => {
             this.tasks = result;
           });
         }
 
         public deleteTask(taskId) {
-          this.taskService.removeTask(taskId);
+          if (this.payload.role === 'admin') {
+            this.taskService.removeTask(taskId);
+          } else {
+            alert('Denied! Admins only.')
+          }
         }
 
         public deleteProject(projectId) {
-          this.projectService.removeProject(projectId);
+          if (this.payload.role === 'admin') {
+            this.projectService.removeProject(projectId);
+          } else {
+            alert('Denied! Admins only.')
+          }
         }
 
         constructor(private taskService, private projectService) {
           this.projects = this.projectService.getProjects();
+          let token = window.localStorage['token'];
+
+          if(token) {
+            this.payload = JSON.parse(window.atob(token.split('.')[1]));
+          }
         }
     }
     angular.module('taskapp').controller('HomeController', HomeController);
@@ -46,11 +60,14 @@ namespace taskapp.Controllers {
         public editTask() {
           this.task._id = this.taskId;
           this.taskService.saveTask(this.task);
+          this.$state.go('home');
         }
 
         constructor(
           private taskService,
-          public $stateParams) {
+          public $stateParams,
+          public $state
+        ) {
             this.taskId = $stateParams['id'];
         }
     }
@@ -61,8 +78,9 @@ namespace taskapp.Controllers {
 
         public addProject() {
           this.projectService.saveProject(this.project);
+          this.$state.go('home');
         }
-        constructor(private projectService) { }
+        constructor(private projectService, public $state) { }
     }
     angular.module('taskapp').controller('AddProjectController', AddProjectController);
 
@@ -74,11 +92,14 @@ namespace taskapp.Controllers {
         console.log(this.projectId)
         this.project._id = this.projectId;
         this.projectService.saveProject(this.project);
+        this.$state.go('home');
       }
 
       constructor(
         private projectService,
-        public $stateParams) {
+        public $stateParams,
+        public $state
+      ) {
           this.projectId = $stateParams['id'];
       }
   }

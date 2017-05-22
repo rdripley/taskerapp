@@ -26,8 +26,8 @@ namespace taskapp.Services {
       return this.ProjectResource.query();
     }
 
-    public getTasks(project) {
-      return this.ProjectResource.query({tag: project}).$promise;
+    public getTasks(projectId) {
+      return this.ProjectResource.query({id: projectId}).$promise;
     }
 
     public saveProject(project) {

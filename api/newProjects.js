@@ -43,7 +43,7 @@ router.get('/', function (req, res) {
     });
 });
 router.get('/:tag', function (req, res) {
-    project_1.default.findOne({ name: req.params['tag'] }).populate('tasks').exec(function (err, results) {
+    project_1.default.findOne({ _id: req.params['tag'] }).populate('tasks').exec(function (err, results) {
         if (err) {
             res.send(err);
         }

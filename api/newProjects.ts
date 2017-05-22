@@ -50,7 +50,7 @@ router.get('/', (req, res) => {
 
 // Get single project
 router.get('/:tag', (req, res)  => {
-  Project.findOne({name: req.params['tag']}).populate('tasks').exec(function(err, results:any) {
+  Project.findOne({_id: req.params['tag']}).populate('tasks').exec(function(err, results:any) {
     if(err) {
       res.send(err);
     } else {
