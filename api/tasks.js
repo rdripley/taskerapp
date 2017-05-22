@@ -34,7 +34,7 @@ router.post('/', function (req, res) {
                     res.send(err);
                 }
                 else if (!result) {
-                    console.log("none found");
+                    alert("Please select a Project!");
                 }
                 else {
                     project_1.default.findByIdAndUpdate(result._id, { "$push": { "tasks": newTask._id } }, { "new": true, "upsert": true }, function (err, updatedProject) {

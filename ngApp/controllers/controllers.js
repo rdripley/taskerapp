@@ -3,8 +3,10 @@ var taskapp;
     var Controllers;
     (function (Controllers) {
         var HomeController = (function () {
-            function HomeController(taskService) {
+            function HomeController(taskService, projectService) {
                 this.taskService = taskService;
+                this.projectService = projectService;
+                this.projects = this.projectService.getProjects();
             }
             HomeController.prototype.getTasks = function () {
                 var _this = this;
@@ -15,21 +17,42 @@ var taskapp;
             HomeController.prototype.deleteTask = function (taskId) {
                 this.taskService.removeTask(taskId);
             };
+            HomeController.prototype.deleteProject = function (projectId) {
+                this.projectService.removeProject(projectId);
+            };
             return HomeController;
         }());
         Controllers.HomeController = HomeController;
         angular.module('taskapp').controller('HomeController', HomeController);
         var AddTaskController = (function () {
-            function AddTaskController(projectService) {
+            function AddTaskController(taskService, projectService, $state) {
+                this.taskService = taskService;
                 this.projectService = projectService;
+                this.$state = $state;
+                this.projects = this.projectService.getProjects();
             }
             AddTaskController.prototype.addTask = function () {
-                this.projectService.saveTask(this.task);
+                this.taskService.saveTask(this.task);
+                this.$state.go('home');
             };
             return AddTaskController;
         }());
         Controllers.AddTaskController = AddTaskController;
         angular.module('taskapp').controller('AddTaskController', AddTaskController);
+        var EditTaskController = (function () {
+            function EditTaskController(taskService, $stateParams) {
+                this.taskService = taskService;
+                this.$stateParams = $stateParams;
+                this.taskId = $stateParams['id'];
+            }
+            EditTaskController.prototype.editTask = function () {
+                this.task._id = this.taskId;
+                this.taskService.saveTask(this.task);
+            };
+            return EditTaskController;
+        }());
+        Controllers.EditTaskController = EditTaskController;
+        angular.module('taskapp').controller('EditTaskController', EditTaskController);
         var AddProjectController = (function () {
             function AddProjectController(projectService) {
                 this.projectService = projectService;
@@ -41,52 +64,21 @@ var taskapp;
         }());
         Controllers.AddProjectController = AddProjectController;
         angular.module('taskapp').controller('AddProjectController', AddProjectController);
-        var EditTaskController = (function () {
-            function EditTaskController($uibModal, $http) {
-                var _this = this;
-                this.$uibModal = $uibModal;
-                this.$http = $http;
-                this.$http.get('/api/tasks')
-                    .then(function (response) {
-                    _this.project = response.data;
-                });
-            }
-            EditTaskController.prototype.editTask = function (title, description, details, dueDate) {
-                this.$uibModal.open({
-                    templateUrl: '/ngApp/views/editTask.html',
-                    controller: 'EditDialogController',
-                    controllerAs: 'modal',
-                    resolve: {
-                        title: function () { return title; },
-                        description: function () { return description; },
-                        details: function () { return details; },
-                        dueDate: function () { return dueDate; }
-                    },
-                    size: 'sm'
-                });
-            };
-            return EditTaskController;
-        }());
-        Controllers.EditTaskController = EditTaskController;
-        angular.module('taskapp').controller('EditTaskController', EditTaskController);
-        var EditTaskDialogController = (function () {
-            function EditTaskDialogController($uibModalInstance, taskService, $stateParams) {
-                this.$uibModalInstance = $uibModalInstance;
-                this.taskService = taskService;
+        var EditProjectController = (function () {
+            function EditProjectController(projectService, $stateParams) {
+                this.projectService = projectService;
                 this.$stateParams = $stateParams;
-                this.taskId = $stateParams['id'];
+                this.projectId = $stateParams['id'];
             }
-            EditTaskDialogController.prototype.ok = function () {
-                var _this = this;
-                this.task._id = this.taskId;
-                this.taskService.saveTask(this.task).then(function () {
-                    _this.$uibModalInstance.close();
-                });
+            EditProjectController.prototype.editProject = function () {
+                console.log(this.projectId);
+                this.project._id = this.projectId;
+                this.projectService.saveProject(this.project);
             };
-            return EditTaskDialogController;
+            return EditProjectController;
         }());
-        Controllers.EditTaskDialogController = EditTaskDialogController;
-        angular.module('taskapp').controller('EditTaskDialogController', EditTaskDialogController);
+        Controllers.EditProjectController = EditProjectController;
+        angular.module('taskapp').controller('EditProjectController', EditProjectController);
         var LoginController = (function () {
             function LoginController(userService, $window, $state) {
                 this.userService = userService;
@@ -97,7 +89,6 @@ var taskapp;
             LoginController.prototype.login = function () {
                 if (this.isAdmin === true) {
                     this.userInfo.role = 'admin';
-                    console.log(this.userInfo);
                     this.createSession();
                 }
                 else {

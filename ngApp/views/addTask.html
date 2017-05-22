@@ -5,8 +5,6 @@
   <input type="text" placeholder="details" ng-model="controller.task.details" />
   <input type="text" placeholder="due date" ng-model="controller.task.dueDate" />
   <select ng-model="controller.task.project">
-    <option value="coderCamps">CoderCamps</option>
-    <option value="personal">Personal</option>
-    <option value="work">Work</option>
+    <option value="{{project.name}}" ng-repeat="project in controller.projects">{{project.name}}</option>
   </select>
  <button type="button" ng-click="controller.addTask()">Add Task</button>

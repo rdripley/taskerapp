@@ -10,6 +10,7 @@ import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
 import tasks from './api/tasks';
+import projects from './api/newProjects';
 
 import routes from './routes/index';
 import users from './api/users';
@@ -46,7 +47,7 @@ app.use('/', routes);
 
 app.use('/api/tasks', tasks);
 app.use('/userRoutes/api', users);
-
+app.use('/api/newProjects', projects);
 // redirect 404 to home for the sake of AngularJS client-side routes
 app.get('/*', function(req, res, next) {
   if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {

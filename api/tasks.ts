@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
         if (err) {
           res.send(err);
         } else if (!result) {
-          console.log("none found");
+          alert("Please select a Project!");
         } else {
           Project.findByIdAndUpdate(result._id, {"$push": {"tasks": newTask._id}}, {"new": true, "upsert": true},
             function (err, updatedProject) {

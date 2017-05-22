@@ -19,10 +19,22 @@ namespace taskapp {
                 controller: taskapp.Controllers.AddTaskController,
                 controllerAs: 'controller'
             })
+            .state('editTask', {
+                url: '/editTask/:id',
+                templateUrl: '/ngApp/views/editTask.html',
+                controller: taskapp.Controllers.EditTaskController,
+                controllerAs: 'controller'
+            })
             .state('addProject', {
                 url: '/addProject',
                 templateUrl: '/ngApp/views/addProject.html',
-                controller: taskapp.Controllers.AddTaskController,
+                controller: taskapp.Controllers.AddProjectController,
+                controllerAs: 'controller'
+            })
+            .state('editProject', {
+                url: '/editProject/:id',
+                templateUrl: '/ngApp/views/editProject.html',
+                controller: taskapp.Controllers.EditProjectController,
                 controllerAs: 'controller'
             })
             .state('login', {

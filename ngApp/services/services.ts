@@ -23,7 +23,7 @@ namespace taskapp.Services {
     public ProjectResource;
 
     public getProjects() {
-      return this.ProjectResource.query().$promise;
+      return this.ProjectResource.query();
     }
 
     public saveProject(project) {
@@ -34,7 +34,7 @@ namespace taskapp.Services {
       return this.ProjectResource.remove({id: projectId});
     }
     constructor(private $resource) {
-      this.ProjectResource = $resource();
+      this.ProjectResource = $resource('/api/newProjects/:id');
     }
   }
   angular.module('taskapp').service('projectService', ProjectService);

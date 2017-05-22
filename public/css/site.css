@@ -5,8 +5,14 @@
 .layout-sidebar {
   background-color: #e4e4e4;
   min-height: 100%;
-  flex-basis: 100px;
+  flex-basis: 150px;
 }
 .layout-main {
   flex-grow: 1;
+  justify-content: space-between;
+  padding-top: 10px;
+  flex-wrap: nowrap;
+}
+.homeLists {
+  list-style-type: none;
 }

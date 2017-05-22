@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var passport = require("passport");
 var tasks_1 = require("./api/tasks");
+var newProjects_1 = require("./api/newProjects");
 var index_1 = require("./routes/index");
 var users_1 = require("./api/users");
 require('./config/passport');
@@ -29,6 +30,7 @@ mongoose.connect('mongodb://mongoUser:D0omsday@ds141950.mlab.com:41950/codercamp
 app.use('/', index_1.default);
 app.use('/api/tasks', tasks_1.default);
 app.use('/userRoutes/api', users_1.default);
+app.use('/api/newProjects', newProjects_1.default);
 app.get('/*', function (req, res, next) {
     if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {
         return next({ status: 404, message: 'Not Found' });

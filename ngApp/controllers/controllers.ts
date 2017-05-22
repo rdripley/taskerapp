@@ -2,6 +2,7 @@ namespace taskapp.Controllers {
 // need to PAYLOAD to add/edit controllers. Create/edit should be available to "guest" but not deleate
     export class HomeController {
         public project;
+        public projects;
         public tasks;
 
         public getTasks() {
@@ -14,20 +15,46 @@ namespace taskapp.Controllers {
           this.taskService.removeTask(taskId);
         }
 
-        constructor(private taskService) {}
+        public deleteProject(projectId) {
+          this.projectService.removeProject(projectId);
+        }
+
+        constructor(private taskService, private projectService) {
+          this.projects = this.projectService.getProjects();
+        }
     }
     angular.module('taskapp').controller('HomeController', HomeController);
 
     export class AddTaskController {
         public task;
+        public projects;
 
         public addTask() {
-          this.projectService.saveTask(this.task);
+          this.taskService.saveTask(this.task);
+          this.$state.go('home');
         }
-        constructor(private projectService) {
+        constructor(private taskService, private projectService, public $state) {
+          this.projects = this.projectService.getProjects();
         }
     }
     angular.module('taskapp').controller('AddTaskController', AddTaskController);
+
+    export class EditTaskController {
+        public task;
+        public taskId;
+
+        public editTask() {
+          this.task._id = this.taskId;
+          this.taskService.saveTask(this.task);
+        }
+
+        constructor(
+          private taskService,
+          public $stateParams) {
+            this.taskId = $stateParams['id'];
+        }
+    }
+    angular.module('taskapp').controller('EditTaskController', EditTaskController);
 
     export class AddProjectController {
         public project;
@@ -35,60 +62,29 @@ namespace taskapp.Controllers {
         public addProject() {
           this.projectService.saveProject(this.project);
         }
-        constructor(private projectService) {
-        }
+        constructor(private projectService) { }
     }
     angular.module('taskapp').controller('AddProjectController', AddProjectController);
 
-    export class EditTaskController {
-      // need to add logic for editing
+    export class EditProjectController {
       public project;
-      public task;
-      public taskId;
+      public projectId;
 
-      public editTask(title: string, description: string, details: string, dueDate: string) {
-        this.$uibModal.open({
-          templateUrl: '/ngApp/views/editTask.html',
-          controller: 'EditDialogController',
-          controllerAs: 'modal',
-          resolve: {
-            title: () => title,
-            description: () => description,
-            details: () => details,
-            dueDate: () => dueDate
-          },
-          size: 'sm'
-        });
+      public editProject() {
+        console.log(this.projectId)
+        this.project._id = this.projectId;
+        this.projectService.saveProject(this.project);
       }
-      constructor(private $uibModal, private $http) {
-        this.$http.get('/api/tasks')
-        .then((response) => {
-          this.project = response.data;
-        });
+
+      constructor(
+        private projectService,
+        public $stateParams) {
+          this.projectId = $stateParams['id'];
       }
-    }
-    angular.module('taskapp').controller('EditTaskController', EditTaskController);
+  }
+    angular.module('taskapp').controller('EditProjectController', EditProjectController);
 
-    export class EditTaskDialogController {
-    // need to add logic for editting
-        public task;
-        public taskId;
 
-        public ok() {
-          this.task._id = this.taskId;
-          this.taskService.saveTask(this.task).then(() => {
-            this.$uibModalInstance.close();
-          })
-        }
-
-        constructor(
-          private $uibModalInstance,
-          private taskService,
-          public $stateParams) {
-            this.taskId = $stateParams['id'];
-        }
-    }
-    angular.module('taskapp').controller('EditTaskDialogController', EditTaskDialogController);
 
     export class LoginController {
       public userInfo;
@@ -97,7 +93,6 @@ namespace taskapp.Controllers {
       public login() {
         if(this.isAdmin === true) {
           this.userInfo.role = 'admin';
-          console.log(this.userInfo);
           this.createSession();
         } else {
           this.userInfo.role = 'guest';

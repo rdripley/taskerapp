@@ -23,10 +23,10 @@ var taskapp;
         var ProjectService = (function () {
             function ProjectService($resource) {
                 this.$resource = $resource;
-                this.ProjectResource = $resource();
+                this.ProjectResource = $resource('/api/newProjects/:id');
             }
             ProjectService.prototype.getProjects = function () {
-                return this.ProjectResource.query().$promise;
+                return this.ProjectResource.query();
             };
             ProjectService.prototype.saveProject = function (project) {
                 return this.ProjectResource.save(project);
