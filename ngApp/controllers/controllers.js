@@ -10,7 +10,7 @@ var taskapp;
             }
             HomeController.prototype.getTasks = function () {
                 var _this = this;
-                this.taskService.getTasks(this.project).then(function (result) {
+                this.projectService.getTasks(this.project).then(function (result) {
                     _this.tasks = result;
                 });
             };

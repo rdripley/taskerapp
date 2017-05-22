@@ -28,6 +28,9 @@ var taskapp;
             ProjectService.prototype.getProjects = function () {
                 return this.ProjectResource.query();
             };
+            ProjectService.prototype.getTasks = function (project) {
+                return this.ProjectResource.query({ tag: project }).$promise;
+            };
             ProjectService.prototype.saveProject = function (project) {
                 return this.ProjectResource.save(project);
             };

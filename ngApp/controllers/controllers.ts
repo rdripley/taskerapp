@@ -6,7 +6,7 @@ namespace taskapp.Controllers {
         public tasks;
 
         public getTasks() {
-          this.taskService.getTasks(this.project).then((result) => {
+          this.projectService.getTasks(this.project).then((result) => {
             this.tasks = result;
           });
         }

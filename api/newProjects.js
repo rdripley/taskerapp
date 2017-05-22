@@ -42,6 +42,16 @@ router.get('/', function (req, res) {
         res.json(projects);
     });
 });
+router.get('/:tag', function (req, res) {
+    project_1.default.findOne({ name: req.params['tag'] }).populate('tasks').exec(function (err, results) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.json(results.tasks);
+        }
+    });
+});
 router.delete('/:tag', function (req, res) {
     project_1.default.remove({ _id: req.params['tag'] }, function (err) {
         if (err) {

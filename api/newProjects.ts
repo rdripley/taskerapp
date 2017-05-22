@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as mongodb from 'mongodb';
 import database from '../db';
 import Project from '../models/project';
 import Task from  '../models/task';
@@ -46,6 +47,17 @@ router.get('/', (req, res) => {
     res.json(projects);
   })
 });
+
+// Get single project
+router.get('/:tag', (req, res)  => {
+  Project.findOne({name: req.params['tag']}).populate('tasks').exec(function(err, results:any) {
+    if(err) {
+      res.send(err);
+    } else {
+      res.json(results.tasks);
+    }
+  });
+})
 
 // Delete
 router.delete('/:tag', (req, res) => {
