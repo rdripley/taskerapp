@@ -14,6 +14,15 @@
           <input type="password" class="form-control" placeholder="password" ng-model="controller.userInfo.password" />
         </div>
       </div>
+      <div class="form-group">
+        <label for="role" class="col-xs-2 control-label">Role:</label>
+        <div class="col-xs-10">
+          <select ng-model="controller.userInfo" style="float: left; height: 27px">
+            <option value="admin">Admin</option>
+            <option value="guest">Guest</option>
+          </select>
+        </div>
+      </div>
 
       <p>Admin <input type="checkbox" ng-model="controller.isAdmin" /></p>
       <button type="button" ng-click="controller.login()">Login</button>

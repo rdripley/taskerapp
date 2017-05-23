@@ -3,6 +3,8 @@ import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import * as crypto from 'crypto';
+import * as mongodb from 'mongodb';
+import database from '../db';
 import User from '../models/user';
 
 var router = express.Router();
@@ -12,6 +14,7 @@ router.post('/Register', (req, res, next) => {
   console.log(req.body);
   user.username = req.body.username;
   user.email = req.body.email;
+  user.admin = req.body.admin;
   user.setPassword(req.body.password);
   user.save(function(err, newUser){
     if(err){
@@ -39,4 +42,11 @@ router.post('/Login/Local',(req, res, next) => {
   })(req, res, next);
 });
 
+// GET single user
+router.get('/:id', (req, res) => {
+  let userId = new mongodb.ObjectID(req.params['id']);
+  database.db.collection('users').find().toArray().then((users) => {
+    res.json(users);
+  })
+});
 export default router;

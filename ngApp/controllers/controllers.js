@@ -127,6 +127,7 @@ var taskapp;
             LoginController.prototype.login = function () {
                 if (this.isAdmin === true) {
                     this.userInfo.role = 'admin';
+                    console.log(this.userInfo);
                     this.createSession();
                 }
                 else {
@@ -147,11 +148,14 @@ var taskapp;
         Controllers.LoginController = LoginController;
         angular.module('taskapp').controller('LoginController', LoginController);
         var RegisterController = (function () {
-            function RegisterController(userService) {
+            function RegisterController(userService, $state) {
                 this.userService = userService;
+                this.$state = $state;
             }
             RegisterController.prototype.signup = function () {
+                var _this = this;
                 this.userService.registerUser(this.user).then(function () {
+                    _this.$state.go('login');
                     alert('signup successful, please login');
                 });
             };

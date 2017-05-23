@@ -46,12 +46,16 @@ var taskapp;
                 this.$resource = $resource;
                 this.LoginResource = this.$resource('/userRoutes/api/Login/Local');
                 this.SignUpResource = this.$resource('/userRoutes/api/Register');
+                this.UserResource = this.$resource('/api/users/:id');
             }
             UserService.prototype.registerUser = function (userObj) {
                 return this.SignUpResource.save(userObj).$promise;
             };
             UserService.prototype.loginUser = function (userInfo) {
                 return this.LoginResource.save(userInfo).$promise;
+            };
+            UserService.prototype.getUser = function (id) {
+                return this.UserResource.get({ id: id });
             };
             return UserService;
         }());

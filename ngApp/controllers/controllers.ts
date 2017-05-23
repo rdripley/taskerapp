@@ -117,8 +117,6 @@ namespace taskapp.Controllers {
   }
     angular.module('taskapp').controller('EditProjectController', EditProjectController);
 
-
-
     export class LoginController {
       public userInfo;
       public isAdmin;
@@ -126,6 +124,7 @@ namespace taskapp.Controllers {
       public login() {
         if(this.isAdmin === true) {
           this.userInfo.role = 'admin';
+          console.log(this.userInfo);
           this.createSession();
         } else {
           this.userInfo.role = 'guest';
@@ -152,11 +151,12 @@ namespace taskapp.Controllers {
 
       public signup() {
         this.userService.registerUser(this.user).then(() => {
+          this.$state.go('login');
           alert('signup successful, please login');
         })
       }
 
-      constructor(private userService) {}
+      constructor(private userService, public $state) {}
     }
     angular.module('taskapp').controller('RegisterController', RegisterController);
 }
