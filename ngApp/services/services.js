@@ -7,8 +7,8 @@ var taskapp;
                 this.$resource = $resource;
                 this.TaskResource = $resource('/api/tasks/:tag');
             }
-            TaskService.prototype.getTasks = function (project) {
-                return this.TaskResource.query({ tag: project }).$promise;
+            TaskService.prototype.getTasks = function () {
+                this.TaskResource.query();
             };
             TaskService.prototype.saveTask = function (task) {
                 return this.TaskResource.save(task);
@@ -46,16 +46,12 @@ var taskapp;
                 this.$resource = $resource;
                 this.LoginResource = this.$resource('/userRoutes/api/Login/Local');
                 this.SignUpResource = this.$resource('/userRoutes/api/Register');
-                this.UserResource = this.$resource('/api/users/:id');
             }
             UserService.prototype.registerUser = function (userObj) {
                 return this.SignUpResource.save(userObj).$promise;
             };
             UserService.prototype.loginUser = function (userInfo) {
                 return this.LoginResource.save(userInfo).$promise;
-            };
-            UserService.prototype.getUser = function (id) {
-                return this.UserResource.get({ id: id });
             };
             return UserService;
         }());

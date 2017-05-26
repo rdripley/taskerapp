@@ -10,21 +10,21 @@ import User from '../models/user';
 var router = express.Router();
 
 router.post('/Register', (req, res, next) => {
-  let user:any = new User();
-  console.log(req.body);
-  user.username = req.body.username;
-  user.email = req.body.email;
-  user.admin = req.body.admin;
-  user.setPassword(req.body.password);
-  user.save(function(err, newUser){
-    if(err){
-      return next(err);
-    }
-    res.json({message: "Registration complete. Please login."})
-  }).catch((err) => {
-    res.status(500);
+    let user:any = new User();
+    console.log(req.body);
+    user.username = req.body.username;
+    user.email = req.body.email;
+    user.role = req.body.role;
+    user.setPassword(req.body.password);
+    user.save(function(err, newUser){
+      if(err){
+        return next(err);
+      }
+      res.json({message: "Registration complete. Please login."})
+    }).catch((err) => {
+      res.status(500);
+    });
   });
-});
 
 router.post('/Login/Local',(req, res, next) => {
 
@@ -36,17 +36,10 @@ router.post('/Login/Local',(req, res, next) => {
       return next(err);
     }
     if(user){
-      return res.json({token: user.generateJWT(req.body.role)});
-    }
+        return res.json({token: user.generateJWT(req.body.role)});
+      } 
     return res.status(400).send(info);
   })(req, res, next);
 });
 
-// GET single user
-router.get('/:id', (req, res) => {
-  let userId = new mongodb.ObjectID(req.params['id']);
-  database.db.collection('users').find().toArray().then((users) => {
-    res.json(users);
-  })
-});
 export default router;

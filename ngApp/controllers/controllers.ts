@@ -13,24 +13,24 @@ namespace taskapp.Controllers {
         }
 
         public deleteTask(taskId) {
-          if (this.payload.role === 'admin') {
+          if (this.payload.role === 'teamLead') {
             this.taskService.removeTask(taskId);
             this.$state.reload().then(() => {
               this.$state.current;
             })
           } else {
-            alert('Denied! Admins only.');
+            alert('Denied! TeamLeads only.');
           }
         }
 
         public deleteProject(projectId) {
-          if (this.payload.role === 'admin') {
+          if (this.payload.role === 'teamLead') {
             this.projectService.removeProject(projectId);
             this.$state.reload().then(() => {
               this.$state.current;
             })
           } else {
-            alert('Denied! Admins only.')
+            alert('Denied! TeamLeads only.')
           }
         }
 
@@ -62,6 +62,10 @@ namespace taskapp.Controllers {
     export class EditTaskController {
         public task;
         public taskId;
+        public taskTitle;
+        public taskDescription;
+        public taskDetails;
+        public taskDueDate;
 
         public editTask() {
           this.task._id = this.taskId;
@@ -77,6 +81,11 @@ namespace taskapp.Controllers {
           public $state
         ) {
             this.taskId = $stateParams['id'];
+            let info = $stateParams['id'].split(',');
+            this.taskTitle = info[1];
+            this.taskDescription = info[2];
+            this.taskDetails = info[3];
+            this.taskDueDate = info[4];
         }
     }
     angular.module('taskapp').controller('EditTaskController', EditTaskController);
@@ -97,9 +106,9 @@ namespace taskapp.Controllers {
     export class EditProjectController {
       public project;
       public projectId;
+      public projectName;
 
       public editProject() {
-        console.log(this.projectId)
         this.project._id = this.projectId;
         this.projectService.saveProject(this.project);
         this.$state.reload().then(() => {
@@ -113,27 +122,16 @@ namespace taskapp.Controllers {
         public $state
       ) {
           this.projectId = $stateParams['id'];
+          let info = $stateParams['id'].split(',');
+          this.projectName = info[1];
       }
   }
     angular.module('taskapp').controller('EditProjectController', EditProjectController);
 
     export class LoginController {
       public userInfo;
-      public isAdmin;
 
       public login() {
-        if(this.isAdmin === true) {
-          this.userInfo.role = 'admin';
-          console.log(this.userInfo);
-          this.createSession();
-        } else {
-          this.userInfo.role = 'guest';
-          console.log(this.userInfo);
-          this.createSession();
-        }
-      }
-
-      public createSession() {
         this.userService.loginUser(this.userInfo).then((data) => {
           this.$window.localStorage.setItem("token", JSON.stringify(data.token));
           this.$state.go('home');

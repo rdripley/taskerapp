@@ -5,7 +5,7 @@ import jwt = require('jsonwebtoken');
 let UserSchema = new mongoose.Schema({
   username: {type:String, lowercase: true, unique: true},
   email: {type: String, lowercase: true, unique: true},
-  adminStatus: String,
+  role: String,
   passwordHash: String,
   salt: String
 });
@@ -25,7 +25,6 @@ UserSchema.method("generateJWT", (role) => {
     id: this._id,
     username: this.username,
     email: this.email,
-    admin: this.adminStatus,
     role: role
   }, 'SecretKey');
 });

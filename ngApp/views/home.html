@@ -5,7 +5,7 @@
     <ul style="padding: 10px">
       <li ng-repeat="project in controller.projects" class="homeLists">
         <a href="#" ng-model="controller.project" ng-click="controller.getTasks(project._id)">{{project.name}}</a>
-        <a href="/editProject/{{project._id}}"><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i></a>
+        <a ui-sref="editProject({id:[project._id, project.name]})"><i class="fa fa-plus-square fa-1x" aria-hidden="true"></i></a>
         <a href="#" ng-click="controller.deleteProject(project._id)">
           <i class="fa fa-minus-square fa-1x" style="color:red" aria-hidden="true"></i></a>
       </li>
@@ -20,9 +20,9 @@
   <div class="layout-main">
       <ul style="margin: 0px">
         <li ng-repeat="task in controller.tasks" style="list-style-type: none; display: inline; float: left">
-          <div ng-controller="EditTaskController as controller">
+          <div>
             <div class="editBox">
-              <a href="/editTask/{{task._id}}">
+              <a ui-sref="editTask({id:[task._id, task.title, task.description, task.details, task.dueDate]})">
                 <i class="fa fa-plus-square fa-3x" aria-hidden="true" style="color: white; padding-top: 5px"></i> </br>
                 <div style="color: white">
                   {{task.title}} </br>

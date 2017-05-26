@@ -21,26 +21,26 @@ var taskapp;
             };
             HomeController.prototype.deleteTask = function (taskId) {
                 var _this = this;
-                if (this.payload.role === 'admin') {
+                if (this.payload.role === 'teamLead') {
                     this.taskService.removeTask(taskId);
                     this.$state.reload().then(function () {
                         _this.$state.current;
                     });
                 }
                 else {
-                    alert('Denied! Admins only.');
+                    alert('Denied! TeamLeads only.');
                 }
             };
             HomeController.prototype.deleteProject = function (projectId) {
                 var _this = this;
-                if (this.payload.role === 'admin') {
+                if (this.payload.role === 'teamLead') {
                     this.projectService.removeProject(projectId);
                     this.$state.reload().then(function () {
                         _this.$state.current;
                     });
                 }
                 else {
-                    alert('Denied! Admins only.');
+                    alert('Denied! TeamLeads only.');
                 }
             };
             return HomeController;
@@ -68,6 +68,11 @@ var taskapp;
                 this.$stateParams = $stateParams;
                 this.$state = $state;
                 this.taskId = $stateParams['id'];
+                var info = $stateParams['id'].split(',');
+                this.taskTitle = info[1];
+                this.taskDescription = info[2];
+                this.taskDetails = info[3];
+                this.taskDueDate = info[4];
             }
             EditTaskController.prototype.editTask = function () {
                 var _this = this;
@@ -103,10 +108,11 @@ var taskapp;
                 this.$stateParams = $stateParams;
                 this.$state = $state;
                 this.projectId = $stateParams['id'];
+                var info = $stateParams['id'].split(',');
+                this.projectName = info[1];
             }
             EditProjectController.prototype.editProject = function () {
                 var _this = this;
-                console.log(this.projectId);
                 this.project._id = this.projectId;
                 this.projectService.saveProject(this.project);
                 this.$state.reload().then(function () {
@@ -125,18 +131,6 @@ var taskapp;
                 this.userInfo = {};
             }
             LoginController.prototype.login = function () {
-                if (this.isAdmin === true) {
-                    this.userInfo.role = 'admin';
-                    console.log(this.userInfo);
-                    this.createSession();
-                }
-                else {
-                    this.userInfo.role = 'guest';
-                    console.log(this.userInfo);
-                    this.createSession();
-                }
-            };
-            LoginController.prototype.createSession = function () {
                 var _this = this;
                 this.userService.loginUser(this.userInfo).then(function (data) {
                     _this.$window.localStorage.setItem("token", JSON.stringify(data.token));
