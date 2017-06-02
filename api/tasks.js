@@ -29,7 +29,6 @@ router.post('/', function (req, res) {
         task.dueDate = req.body.dueDate;
         task.save(function (err, newTask) {
             project_1.default.findOne({ name: req.body.project }).exec(function (err, result) {
-                console.log(req.body.project);
                 if (err) {
                     res.send(err);
                 }

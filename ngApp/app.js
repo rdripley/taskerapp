@@ -32,6 +32,12 @@ var taskapp;
             controller: taskapp.Controllers.EditProjectController,
             controllerAs: 'controller'
         })
+            .state('editAccount', {
+            url: '/editAccount/:id',
+            templateUrl: '/ngApp/views/editAccount.html',
+            controller: taskapp.Controllers.EditAccountController,
+            controllerAs: 'controller'
+        })
             .state('login', {
             url: '/',
             templateUrl: '/ngApp/views/login.html',

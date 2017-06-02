@@ -16,7 +16,7 @@ import routes from './routes/index';
 import users from './api/users';
 require('./config/passport');
 
-import User from './models/user'
+import User from './models/user';
 import Database from './db';
 
 Database.connect();

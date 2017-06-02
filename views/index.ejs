@@ -25,7 +25,9 @@
       </li>
       <li><a href="/">Login</a></li>
       <li><a href="/">Logout</a></li>
-      </ul>
+      <li style="padding-top: 17px"><div ng-controller="HomeController as controller">Welcome,
+        <a ui-sref="editAccount({id:[user._id, user.username, user.email, user.password]})">{{controller.users[0]['username']}}</a></div></li>
+    </ul>
     </div>
   </div>
    </nav>

@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var passport = require("passport");
+var mongodb = require("mongodb");
+var db_1 = require("../db");
 var user_1 = require("../models/user");
 var router = express.Router();
 router.post('/Register', function (req, res, next) {
@@ -33,5 +35,11 @@ router.post('/Login/Local', function (req, res, next) {
         }
         return res.status(400).send(info);
     })(req, res, next);
+});
+router.get('/', function (req, res) {
+    var userId = new mongodb.ObjectID(req.params['id']);
+    db_1.default.db.collection('users').find().toArray().then(function (users) {
+        res.json(users);
+    });
 });
 exports.default = router;

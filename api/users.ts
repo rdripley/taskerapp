@@ -37,9 +37,17 @@ router.post('/Login/Local',(req, res, next) => {
     }
     if(user){
         return res.json({token: user.generateJWT(req.body.role)});
-      } 
+      }
     return res.status(400).send(info);
   })(req, res, next);
+});
+
+
+router.get('/', (req, res) => {
+  let userId = new mongodb.ObjectID(req.params['id']);
+  database.db.collection('users').find().toArray().then((users) => {
+    res.json(users);
+  })
 });
 
 export default router;

@@ -5,6 +5,7 @@ namespace taskapp.Controllers {
         public projects;
         public tasks;
         public payload;
+        public users;
 
         public getTasks(projectId) {
           this.projectService.getTasks(projectId).then((result) => {
@@ -34,13 +35,18 @@ namespace taskapp.Controllers {
           }
         }
 
-        constructor(private taskService, private projectService, public $state) {
+        constructor(
+          private taskService,
+          private projectService,
+          private userService,
+          public $state) {
           this.projects = this.projectService.getProjects();
           let token = window.localStorage['token'];
 
           if(token) {
             this.payload = JSON.parse(window.atob(token.split('.')[1]));
           }
+          this.users = userService.listUsers();
         }
     }
     angular.module('taskapp').controller('HomeController', HomeController);
@@ -110,6 +116,7 @@ namespace taskapp.Controllers {
 
       public editProject() {
         this.project._id = this.projectId;
+        console.log(this.projectId);
         this.projectService.saveProject(this.project);
         this.$state.reload().then(() => {
           this.$state.go('home');
@@ -122,11 +129,34 @@ namespace taskapp.Controllers {
         public $state
       ) {
           this.projectId = $stateParams['id'];
+          console.log($stateParams);
           let info = $stateParams['id'].split(',');
           this.projectName = info[1];
       }
   }
     angular.module('taskapp').controller('EditProjectController', EditProjectController);
+
+    export class EditAccountController {
+      public user;
+      public userId;
+      public userName;
+      public userEmail;
+      public userPassword;
+
+      public editAccount() {
+        this.user._id = this.userId;
+        this.userService.registerUser(this.user).then(() => {
+          this.$state.go('home');
+          alert('account change successful');
+        })
+      }
+
+      constructor(private userService, public $stateParams, public $state) {
+        this.userId = $stateParams['id'];
+        let info = $stateParams['id'].split(',');
+        console.log($stateParams);
+      }
+    }
 
     export class LoginController {
       public userInfo;

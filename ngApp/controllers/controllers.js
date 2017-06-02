@@ -3,15 +3,17 @@ var taskapp;
     var Controllers;
     (function (Controllers) {
         var HomeController = (function () {
-            function HomeController(taskService, projectService, $state) {
+            function HomeController(taskService, projectService, userService, $state) {
                 this.taskService = taskService;
                 this.projectService = projectService;
+                this.userService = userService;
                 this.$state = $state;
                 this.projects = this.projectService.getProjects();
                 var token = window.localStorage['token'];
                 if (token) {
                     this.payload = JSON.parse(window.atob(token.split('.')[1]));
                 }
+                this.users = userService.listUsers();
             }
             HomeController.prototype.getTasks = function (projectId) {
                 var _this = this;
@@ -108,12 +110,14 @@ var taskapp;
                 this.$stateParams = $stateParams;
                 this.$state = $state;
                 this.projectId = $stateParams['id'];
+                console.log($stateParams);
                 var info = $stateParams['id'].split(',');
                 this.projectName = info[1];
             }
             EditProjectController.prototype.editProject = function () {
                 var _this = this;
                 this.project._id = this.projectId;
+                console.log(this.projectId);
                 this.projectService.saveProject(this.project);
                 this.$state.reload().then(function () {
                     _this.$state.go('home');
@@ -123,6 +127,26 @@ var taskapp;
         }());
         Controllers.EditProjectController = EditProjectController;
         angular.module('taskapp').controller('EditProjectController', EditProjectController);
+        var EditAccountController = (function () {
+            function EditAccountController(userService, $stateParams, $state) {
+                this.userService = userService;
+                this.$stateParams = $stateParams;
+                this.$state = $state;
+                this.userId = $stateParams['id'];
+                var info = $stateParams['id'].split(',');
+                console.log($stateParams);
+            }
+            EditAccountController.prototype.editAccount = function () {
+                var _this = this;
+                this.user._id = this.userId;
+                this.userService.registerUser(this.user).then(function () {
+                    _this.$state.go('home');
+                    alert('account change successful');
+                });
+            };
+            return EditAccountController;
+        }());
+        Controllers.EditAccountController = EditAccountController;
         var LoginController = (function () {
             function LoginController(userService, $window, $state) {
                 this.userService = userService;
