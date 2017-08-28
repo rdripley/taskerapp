@@ -65,7 +65,7 @@ namespace taskapp.Services {
       return this.UserResource.query();
     }
 
-    constructor(private $resource: ng.resource.IResourceService) {
+    constructor(private $resource) {
       this.LoginResource = this.$resource('/userRoutes/api/Login/Local');
       this.SignUpResource = this.$resource('/userRoutes/api/Register');
       this.UserResource = this.$resource('/userRoutes/api/:id');
