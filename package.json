@@ -18,18 +18,11 @@
     "@types/morgan": "^1.7.31",
     "@types/serve-favicon": "^2.2.27",
     "body-parser": "~1.15.1",
-    "bower-migrate": "^0.0.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
-    "ejs": "~2.4.1",
     "express": "~4.13.4",
-    "gulp-update": "0.0.2",
-    "less": "^2.7.2",
+    "ejs": "~2.4.1",
     "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0",
-    "yarn": "^0.27.5"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1"
+    "serve-favicon": "~2.3.0"
   }
 }
