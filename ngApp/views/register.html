@@ -1,7 +1,20 @@
 <h2>Create Account</h2>
-
-<input type="text" placeholder="username" ng-model="controller.user.username" />
-<input type="text" placeholder="email" ng-model="controller.user.email" />
-<input type="password" placeholder="password" ng-model="controller.user.password" />
-<input type="text" placeholder="teamLead or teamMember" ng-model="controller.user.role" />
-<button type="button" ng-click="controller.signup()">Submit</button>
+<form>
+    <div class="form-group">
+        <label for="username">Username: </label>
+        <input type="text" class="form-control" placeholder="username" ng-model="controller.user.username" />        
+    </div>
+    <div class="form-group">
+        <label for="username">Username: </label>
+        <input type="text" class="form-control" placeholder="email" ng-model="controller.user.email" />        
+    </div>
+    <div class="form-group">
+        <label for="username">Username: </label>
+        <input type="password" class="form-control" placeholder="password" ng-model="controller.user.password" />        
+    </div>
+    <div class="form-group">
+        <label for="username">Username: </label>
+        <input type="text" class="form-control" placeholder="teamLead or teamMember" ng-model="controller.user.role" />        
+    </div>
+    <button type="button" class="btn btn-default" ng-click="controller.signup()">Submit</button>    
+</form>

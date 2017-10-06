@@ -1,10 +1,26 @@
 <h1>Add Task</h1>
   <h3>Task Details</h3>
-  <input type="text" placeholder="title" ng-model="controller.task.title" />
-  <input type="text" placeholder="description" ng-model="controller.task.description" />
-  <input type="text" placeholder="details" ng-model="controller.task.details" />
-  <input type="text" placeholder="due date" ng-model="controller.task.dueDate" />
-  <select ng-model="controller.task.project">
-    <option value="{{project.name}}" ng-repeat="project in controller.projects">{{project.name}}</option>
-  </select>
- <button type="button" ng-click="controller.addTask()">Add Task</button>
+  <form>
+    <div class="form-group">
+      <label for="title">Title:</label>
+      <input type="text" class="form-control" placeholder="title" ng-model="controller.task.title" />
+    </div>
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <input type="text" class="form-control" placeholder="description" ng-model="controller.task.description" />
+    </div>
+    <div class="form-group">
+      <label for="details">Details:</label>
+      <input type="text" class="form-control" placeholder="details" ng-model="controller.task.details" />        
+    </div>
+    <div class="form-group date">
+      <label for="due date">Due Date:</label>
+      <input type="text" class="form-control" />
+    </div>
+    <select ng-model="controller.task.project">
+      <option value="{{project.name}}" ng-repeat="project in controller.projects">{{project.name}}</option>
+    </select>  
+  </form>
+ <button type="button" class="btn btn-default" id="btn" ng-click="controller.addTask()">Add Task</button>
+
+

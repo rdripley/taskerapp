@@ -1,5 +1,9 @@
 <h1>Selected Project</h1>
 <h3>Project Details</h3>
-<input type="text" placeholder="New Project Name" ng-model="controller.project.name" />
-
-  <button class="btn btn-primary" ng-click="controller.editProject()">Edit Project</button>
+<form>
+  <div class="form-group">
+    <label for="projectName">Project Name: </label>
+    <input type="text" class="form-control" placeholder="New Project Name" ng-model="controller.project.name" />    
+  </div>
+  <button class="btn btn-primary" id="btn" ng-click="controller.editProject()">Edit Project</button>    
+</form>

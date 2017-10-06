@@ -1,8 +1,21 @@
   <h1>Selected Task</h1>
   <h3>Task Details</h3>
-  <input type="text" placeholder="New Title" ng-model="controller.task.title" />
-  <input type="text" placeholder="New Description" ng-model="controller.task.description" />
-  <input type="text" placeholder="New Details" ng-model="controller.task.details" />
-  <input type="text" placeholder="New DueDate" ng-model="controller.task.dueDate" />
-
-    <button class="btn btn-primary" ng-click="controller.editTask()">Edit Task</button>
+  <form>
+    <div class="form-group">
+      <label for="title">Title: </label>
+      <input type="text" class="form-control" placeholder="New Title" ng-model="controller.task.title" />        
+    </div>
+    <div class="form-group">
+      <label for="description">Description: </label>
+      <input type="text" class="form-control" placeholder="New Description" ng-model="controller.task.description" />      
+    </div>
+    <div class="form-group">
+        <label for="details">Details: </label>
+        <input type="text" class="form-control" placeholder="New Details" ng-model="controller.task.details" />        
+      </div>
+    <div class="form-group">
+        <label for="dueDate">Due Date: </label>
+        <input type="text" class="form-control" placeholder="New DueDate" ng-model="controller.task.dueDate" />        
+      </div>
+    <button class="btn btn-primary" id="btn" ng-click="controller.editTask()">Edit Task</button>
+  </form>

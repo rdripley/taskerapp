@@ -1,5 +1,8 @@
 <h1>Add Project</h1>
-
-<input type="text" placeholder="Project Name" ng-model="controller.project.name" />
-
- <button type="button" ng-click="controller.addProject()">Add Project</button>
+<form>
+    <div class="form-group">
+        <label for="Project">Project: </label>
+        <input type="text" class="form-contol" placeholder="Project Name" ng-model="controller.project.name" />      
+    </div>
+    <button type="button" class="btn btn-default" id="btn" ng-click="controller.addProject()">Add Project</button>
+</form>
